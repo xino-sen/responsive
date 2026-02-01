@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | AJ SOFTDRIVE</title>
+    <link rel="icon" type="image/jpeg" href="image/logo.jpg">
+    <style>
+        :root {
+            --primary: #ff8c00; 
+            --primary-glow: #ff4500;
+            --dark-card: rgba(15, 23, 42, 0.9);
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background-color: #000; 
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--primary)); }
+            50% { filter: drop-shadow(0 0 12px var(--primary-glow)); }
+        }
+
+        .reveal { 
+            opacity: 0; 
+            animation: fadeInUp 0.8s ease-out forwards; 
+            animation-play-state: paused;
+        }
+
+        /* BACKGROUND */
+        .video-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .video-bg-container video { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: -1; }
+
+        /* HEADER & MOBILE NAV */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 2px solid var(--primary);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo-box { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .logo-img { height: 40px; animation: logoGlow 3s infinite; }
+        .logo-text { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .menu-toggle span {
+            width: 25px; height: 3px; background: var(--primary); border-radius: 2px; transition: 0.3s;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #fff; font-size: 14px; font-weight: 600; transition: 0.3s; text-transform: uppercase; }
+        nav ul li a:hover, nav ul li a.active { color: var(--primary); }
+
+        /* HERO */
+        .hero { text-align: center; padding: 60px 5% 30px; }
+        .hero h1 { font-size: clamp(2.2rem, 7vw, 3.5rem); text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); letter-spacing: 2px; }
+
+        /* CONTACT GRID */
+        .contact-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            padding: 0 5% 80px; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .box { 
+            background: var(--dark-card); 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 140, 0, 0.2); 
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: 0.4s ease; 
+        }
+
+        .box:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--primary); 
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3); 
+        }
+
+        .tier { 
+            background: var(--primary); color: #000; font-size: 10px; 
+            padding: 4px 10px; font-weight: 900; border-radius: 4px; 
+            display: inline-block; margin-bottom: 15px; width: fit-content; 
+            text-transform: uppercase; 
+        }
+
+        .box h3 { 
+            font-size: 1.3rem; 
+            margin-bottom: 20px; 
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .contact-item h4 { font-size: 0.65rem; color: var(--primary); text-transform: uppercase; }
+        .contact-item p { font-size: 0.95rem; color: #cbd5e1; margin-top: 5px; word-break: break-all; }
+
+        /* MAP */
+        .map-wrapper {
+            flex-grow: 1;
+            min-height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            margin-top: 10px;
+        }
+        .map-container { width: 100%; height: 100%; filter: grayscale(1) invert(0.92) contrast(1.2); }
+
+        /* FOOTER */
+        footer { 
+            background: #0f0f0f; color: #888; padding: 40px 5%; 
+            border-top: 4px solid var(--primary); text-align: center; 
+        }
+
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 30px; 
+            margin-bottom: 30px; 
+            text-align: left; 
+        }
+        .footer-info h2 { color: var(--primary); margin-bottom: 10px; }
+        .footer-links h4 { color: #fff; margin-bottom: 15px; text-transform: uppercase; font-size: 13px; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; font-size: 13px; }
+        .footer-links a { color: #888; text-decoration: none; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); padding-left: 5px; }
+
+        /* MOBILE OVERRIDES */
+        @media (max-width: 900px) { 
+            .menu-toggle { display: flex; }
+            nav {
+                position: absolute; top: 100%; left: -100%; width: 100%;
+                background: rgba(10, 10, 10, 0.98); transition: 0.4s; height: 100vh;
+            }
+            nav.active { left: 0; }
+            nav ul { flex-direction: column; align-items: center; padding-top: 50px; }
+            nav ul li { margin: 15px 0; }
+            nav ul li a { font-size: 1.1rem; }
+
+            .hero h1 { font-size: 2.2rem; } 
+            .footer-grid { text-align: center; }
+            .footer-links ul { padding: 0; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-bg-container"><video autoplay muted loop playsinline><source src="live.mp4" type="video/mp4"></video></div>
+    <div class="video-overlay"></div>
+
+    <header>
+        <a href="home.html" class="logo-box">
+            <img src="logo.jpg" alt="AJ SOFTDRIVE" class="logo-img">
+            <div class="logo-text">AJ SOFTDRIVE</div>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="items.html">Items</a></li>
+                <li><a href="acce.html">Accessories</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero reveal">
+        <h1>Contact Us</h1>
+        <p style="color: var(--primary); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Tech Support & Custom Build Inquiry</p>
+    </div>
+
+    <section class="contact-grid reveal">
+        <div class="box">
+            <span class="tier">Get in Touch</span>
+            <h3>Information</h3>
+            <div class="contact-item">
+                <h4>Email Support</h4>
+                <p>AJsOftdrive@gmail.com</p>
+            </div>
+            <div class="contact-item">
+                <h4>Hotline</h4>
+                <p>+63 997 308 4383</p>
+            </div>
+            <div class="contact-item">
+                <h4>Business Hours</h4>
+                <p>Mon - Sat: 9:00 AM - 6:00 PM</p>
+            </div>
+        </div>
+
+        <div class="box">
+            <span class="tier">Locate Us</span>
+            <h3>Our Location</h3>
+            <p style="font-size: 0.8rem; color: var(--primary); margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">
+                📍 Lapu-Lapu Street, Tacurong City
+            </p>
+            <div class="map-wrapper">
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.551834246833!2d124.677!3d6.687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDEnMTMuMiJOIDEyNMKwNDAnMzcuMiJF!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-info">
+                <h2>AJ SOFTDRIVE</h2>
+                <p style="font-size: 13px; line-height: 1.6; color: #cbd5e1;">Your ultimate partner in high-performance computing. Beyond Limits.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="items.html">Items Catalog</a></li>
+                    <li><a href="acce.html">Accessories</a></li>
+                    <li><a href="aboutus.html">Our Story</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li>📞 +63 997 308 4383</li>
+                    <li>✉️ AJsOftdrive@gmail.com</li>
+                    <li>📍 Tacurong City, Sultan Kudarat</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,140,0,0.1); padding-top: 25px; font-size: 10px; letter-spacing: 1px; line-height: 1.4;">
+            © AJ SOFTDRIVE COMPUTER SALES & SERVICES | High-Performance Engineering
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.animationPlayState = "running";
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

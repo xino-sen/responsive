@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | AJ SOFTDRIVE</title>
+    <link rel="icon" type="image/jpeg" href="image/logo.jpg">
+    <style>
+        :root {
+            --primary: #ff8c00; 
+            --primary-glow: #ff4500;
+            --dark-card: rgba(15, 23, 42, 0.9);
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background-color: #000; 
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--primary)); }
+            50% { filter: drop-shadow(0 0 12px var(--primary-glow)); }
+        }
+
+        .reveal { 
+            opacity: 0; 
+            animation: fadeInUp 0.8s ease-out forwards; 
+            animation-play-state: paused;
+        }
+
+        /* BACKGROUND */
+        .video-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .video-bg-container video { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: -1; }
+
+        /* HEADER & MOBILE NAV */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 2px solid var(--primary);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo-box { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .logo-img { height: 45px; animation: logoGlow 3s infinite; }
+        .logo-text { font-size: clamp(16px, 4vw, 22px); font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .menu-toggle span {
+            width: 25px; height: 3px; background: var(--primary); border-radius: 2px; transition: 0.3s;
+        }
+
+        nav { transition: 0.4s; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #fff; font-size: 14px; font-weight: 600; transition: 0.3s; text-transform: uppercase; }
+        nav ul li a:hover, nav ul li a.active { color: var(--primary); }
+
+        /* HERO */
+        .hero { text-align: center; padding: 60px 5% 20px; }
+        .hero h1 { font-size: clamp(2rem, 8vw, 3.5rem); text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); letter-spacing: 2px; }
+
+        /* MAIN SECTION */
+        .about-container {
+            padding: 0 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .manifesto-card { 
+            background: var(--dark-card); 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 140, 0, 0.2); 
+            padding: clamp(20px, 5vw, 40px);
+            transition: 0.4s ease; 
+        }
+
+        .manifesto-card:hover { 
+            border-color: var(--primary); 
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2); 
+        }
+
+        .tier { 
+            background: var(--primary); color: #000; font-size: 10px; 
+            padding: 4px 10px; font-weight: 900; border-radius: 4px; 
+            display: inline-block; margin-bottom: 20px; width: fit-content; 
+            text-transform: uppercase; 
+        }
+
+        .manifesto-card h2 {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .content-text {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            column-count: 2;
+            column-gap: 40px;
+            text-align: justify;
+        }
+
+        /* FOOTER */
+        footer { 
+            background: #0f0f0f; color: #888; padding: 30px 5%; 
+            border-top: 4px solid var(--primary); text-align: center; 
+        }
+
+        /* MOBILE OVERRIDES */
+        @media (max-width: 1000px) { 
+            .menu-toggle { display: flex; }
+            nav {
+                position: absolute; top: 100%; left: -100%; width: 100%;
+                background: rgba(10, 10, 10, 0.98); height: 100vh;
+                padding-top: 50px;
+            }
+            nav.active { left: 0; }
+            nav ul { flex-direction: column; align-items: center; }
+            nav ul li { margin: 15px 0; }
+            
+            .content-text { 
+                column-count: 1; 
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-bg-container"><video autoplay muted loop playsinline><source src="image/live.mp4" type="video/mp4"></video></div>
+    <div class="video-overlay"></div>
+
+    <header>
+        <a href="home.html" class="logo-box">
+            <img src="logo.jpg" alt="AJ SOFTDRIVE" class="logo-img">
+            <div class="logo-text">AJ SOFTDRIVE</div>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="items.html">Items</a></li>
+                <li><a href="acce.html">Accessories</a></li>
+                <li><a href="aboutus.html" class="active">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero reveal">
+        <h1>Our Legacy</h1>
+    </div>
+
+    <section class="about-container reveal">
+        <div class="manifesto-card">
+            <span class="tier">The System Legacy</span>
+            <h2>Our Journey</h2>
+            <div class="content-text">
+                Success in the business world is rarely a straight line; it is a twenty-six-year journey of adaptation, simplification, and grit. As the venture associated with Arthur F. Paclibar approaches its 26th anniversary this June, its history offers a masterclass in how a small partnership can evolve into a specialized force. From its humble origins as a partnership cafe, the "system" has shifted from a complex array of offerings to a refined, singular focus—proving that in modern advertising and operations, less is often more.<br><br>
+
+                The transition from having multiple product systems to just one is a strategic move toward efficiency. In the early years, managing various products and advertising strategies can dilute a brand’s identity. By streamlining into a single system, the business has likely mastered its "product-market fit," allowing for a more targeted and effective advertising approach. This focus is particularly evident in its unique clientele: students and police officers.<br><br>
+
+                However, a quarter-century of operation is not without its trials. The mention of factory defects serves as a grounded reminder of the operational hurdles every durable business must face. A factory defect is more than just a logistical error; it is a test of a system’s integrity. How a company handles these setbacks—especially when serving sensitive sectors like the police—defines its reputation.<br><br>
+
+                As the business looks toward its June milestone, it stands as a testament to the power of a solid foundation. What started as a shared vision in a cafe has matured into a focused entity that understands its audience and its own internal mechanics. The story of this system is one of distillation: removing the noise of multiple products to focus on the one thing that works best for the community it serves.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size: 11px; letter-spacing: 1px; line-height: 1.5;">&copy; AJ SOFTDRIVE COMPUTER SALES & SERVICES<br>High-Performance Catalog</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.animationPlayState = "running";
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

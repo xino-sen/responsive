@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptops | AJ SOFTDRIVE</title>
+    <link rel="icon" type="image/jpeg" href="image/logo.jpg">
+
+    <style>
+        :root {
+            --primary: #ff8c00; 
+            --primary-glow: #ff4500;
+            --dark-card: rgba(15, 23, 42, 0.9);
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background-color: #000; 
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--primary)); }
+            50% { filter: drop-shadow(0 0 12px var(--primary-glow)); }
+        }
+
+        .reveal { 
+            opacity: 0; 
+            animation: fadeInUp 0.8s ease-out forwards; 
+            animation-play-state: paused;
+        }
+
+        /* BACKGROUND */
+        .video-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .video-bg-container video { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: -1; }
+
+        /* HEADER & MOBILE NAV */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 2px solid var(--primary);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo-box { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .logo-img { height: 40px; animation: logoGlow 3s infinite; }
+        .logo-text { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .menu-toggle span {
+            width: 25px; height: 3px; background: var(--primary); border-radius: 2px; transition: 0.3s;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #fff; font-size: 14px; font-weight: 600; transition: 0.3s; text-transform: uppercase; }
+        nav ul li a:hover, nav ul li a.active { color: var(--primary); }
+
+        /* HERO */
+        .hero { text-align: center; padding: 60px 5% 30px; }
+        .hero h1 { font-size: clamp(2rem, 7vw, 3.5rem); text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); letter-spacing: 2px; }
+
+        /* FILTERS */
+        .filters { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; padding: 0 5%; }
+        .filter-btn { 
+            padding: 8px 20px; border: 2px solid #fff; border-radius: 30px; 
+            color: #fff; text-decoration: none; font-weight: 800; 
+            transition: 0.3s; text-transform: uppercase; font-size: 11px; 
+        }
+        .filter-btn.active, .filter-btn:hover { 
+            background: var(--primary); border-color: var(--primary); 
+            color: #000; box-shadow: 0 0 15px var(--primary); 
+        }
+
+        /* GRID SYSTEM */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            padding: 0 5% 80px; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* CARD STYLE */
+        .card { 
+            background: var(--dark-card); 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 140, 0, 0.2); 
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: 0.4s ease; 
+        }
+
+        .card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--primary); 
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3); 
+        }
+        
+        .card-img { 
+            width: 100%; 
+            height: 220px; 
+            background: #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 15px; 
+        }
+
+        .card-img img { max-width: 100%; max-height: 100%; transition: 0.6s ease; object-fit: contain; }
+
+        .card-content { 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            flex-grow: 1;
+        }
+
+        .tier { 
+            background: var(--primary); color: #000; font-size: 10px; 
+            padding: 3px 8px; font-weight: 900; border-radius: 4px; 
+            display: inline-block; margin-bottom: 12px; width: fit-content; 
+            text-transform: uppercase; 
+        }
+        
+        .card h2 { 
+            font-size: 1rem; 
+            line-height: 1.4; 
+            margin-bottom: 15px; 
+            color: #fff;
+            min-height: 3em;
+        }
+
+        .price { 
+            font-size: 1.4rem; 
+            font-weight: 900; 
+            color: var(--primary); 
+            margin-top: auto;
+        }
+
+        /* FOOTER */
+        footer { 
+            background: #0f0f0f; color: #888; padding: 40px 5%; 
+            border-top: 4px solid var(--primary); text-align: center; 
+        }
+
+        /* MOBILE OVERRIDES */
+        @media (max-width: 900px) { 
+            .menu-toggle { display: flex; }
+            
+            nav {
+                position: absolute;
+                top: 100%;
+                left: -100%;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                transition: 0.4s;
+                height: 100vh;
+            }
+
+            nav.active { left: 0; }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 50px;
+            }
+
+            nav ul li { margin: 15px 0; }
+            nav ul li a { font-size: 1.1rem; }
+
+            .hero h1 { font-size: 2.2rem; }
+            .grid { grid-template-columns: 1fr; } /* Stack cards on mobile */
+            .card-img { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-bg-container"><video autoplay muted loop playsinline><source src="live.mp4" type="video/mp4"></video></div>
+    <div class="video-overlay"></div>
+
+    <header>
+        <a href="home.html" class="logo-box">
+            <img src="logo.jpg" alt="AJ SOFTDRIVE" class="logo-img">
+            <div class="logo-text">AJ SOFTDRIVE</div>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="items.html" class="active">Items</a></li>
+                <li><a href="acce.html">Accessories</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header> 
+
+    <div class="hero reveal">
+        <h1>Laptops</h1>
+        <p style="color: var(--primary); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;">Ultimate Portability & Power.</p>
+    </div>
+
+    <div class="filters reveal">
+        <a href="items.html" class="filter-btn active">Laptops</a>
+        <a href="chair.html" class="filter-btn">Gaming Chairs</a>
+        <a href="printer.html" class="filter-btn">Printers</a>
+    </div>
+
+    <section class="grid reveal">
+        <div class="card">
+            <div class="card-img"><img src="lap1.jpeg" alt="HP Laptop"></div>
+            <div class="card-content">
+                <span class="tier">Business Elite</span>
+                <h2>HP 15.6 Touchscreen, Core i7-8550U, 1TB HDD + 16GB Optane</h2>
+                <span class="price">₱49,677.00</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"><img src="lap2.jpg" alt="Acer Aspire"></div>
+            <div class="card-content">
+                <span class="tier">Performance</span>
+                <h2>Acer Aspire A15-51M Core i5, 8GB DDR5, 512GB NVME</h2>
+                <span class="price">₱62,500.00</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img"><img src="lap3.webp" alt="Asus TUF"></div>
+            <div class="card-content">
+                <span class="tier">Gaming Pro</span>
+                <h2>Asus TUF Gaming A15 FA506NFR-HN005W Edition</h2>
+                <span class="price">₱41,999.00</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size: 11px; letter-spacing: 1px; line-height: 1.5;">&copy; AJ SOFTDRIVE COMPUTER SALES & SERVICES<br>High-Performance Catalog</p>
+    </footer>
+
+    <script>
+        // Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.animationPlayState = "running";
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | AJ SOFTDRIVE</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <style>
+        :root {
+            --primary: #ff8c00; 
+            --primary-glow: #ff4500;
+            --dark-card: rgba(15, 23, 42, 0.9);
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background-color: #000; 
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--primary)); }
+            50% { filter: drop-shadow(0 0 12px var(--primary-glow)); }
+        }
+
+        .reveal { 
+            opacity: 0; 
+            animation: fadeInUp 0.8s ease-out forwards; 
+            animation-play-state: paused;
+        }
+
+        /* BACKGROUND */
+        .video-bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .video-bg-container video { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: -1; }
+
+        /* HEADER & NAV */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px); border-bottom: 2px solid var(--primary);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo-box { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .logo-img { height: 40px; animation: logoGlow 3s infinite; }
+        .logo-text { font-size: 18px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #fff; font-size: 14px; font-weight: 600; transition: 0.3s; text-transform: uppercase; }
+        nav ul li a:hover, nav ul li a.active { color: var(--primary); }
+
+        /* HERO SECTION */
+        .hero { text-align: center; padding: 80px 5% 40px; }
+        .hero h1 { 
+            font-size: clamp(2.5rem, 8vw, 4rem); 
+            text-transform: uppercase; 
+            text-shadow: 0 0 15px var(--primary-glow); 
+            letter-spacing: 2px; 
+            margin-bottom: 10px;
+        }
+        .hero p {
+            color: var(--primary);
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* FEATURE GRID */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            padding: 0 5% 60px; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card { 
+            background: var(--dark-card); 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 140, 0, 0.2); 
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.4s ease; 
+        }
+
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--primary); 
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3); 
+        }
+
+        .card h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: 12px; text-transform: uppercase; }
+        .card p { color: #ccc; line-height: 1.5; font-size: 0.9rem; }
+
+        /* FOOTER */
+        footer { 
+            background: #0f0f0f; 
+            color: #888; 
+            padding: 30px 5%; 
+            border-top: 4px solid var(--primary); 
+            text-align: center; 
+        }
+
+        /* MOBILE RESPONSIVE STYLES */
+        @media (max-width: 900px) {
+            .menu-toggle { display: flex; }
+            
+            nav {
+                position: absolute;
+                top: 100%;
+                left: -100%;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                transition: 0.4s;
+                height: 100vh;
+            }
+
+            nav.active { left: 0; }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 50px;
+            }
+
+            nav ul li { margin: 20px 0; }
+            nav ul li a { font-size: 1.2rem; }
+
+            .logo-text { font-size: 16px; }
+            .hero { padding: 60px 5% 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-bg-container">
+        <video autoplay muted loop playsinline>
+            <source src="live.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+
+    <header>
+        <a href="home.html" class="logo-box">
+            <img src="logo.jpg" alt="AJ SOFTDRIVE" class="logo-img">
+            <div class="logo-text">AJ SOFTDRIVE</div>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="items.html">Items</a></li>
+                <li><a href="acce.html">Accessories</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero reveal">
+        <h1>AJ SOFTDRIVE</h1>
+        <p>Computer Sales & Services</p>
+        <p style="color: #fff; text-transform: none; font-weight: normal; max-width: 500px; margin: 0 auto; line-height: 1.4;">Providing high-performance laptops and expert technical solutions for your digital needs.</p>
+    </div>
+
+    <section class="grid reveal">
+        <div class="card">
+            <h3>Premium Laptops</h3>
+            <p>Branded gaming and office laptops with top-tier specs and official warranties.</p>
+        </div>
+        <div class="card">
+            <h3>Expert Repairs</h3>
+            <p>Professional cleaning, hardware upgrades, and software troubleshooting services.</p>
+        </div>
+        <div class="card">
+            <h3>Accessories</h3>
+            <p>Complete your setup with high-quality mechanical keyboards, monitors, and gaming gears.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size: 11px; letter-spacing: 1px; color: #fff; margin-bottom: 8px;">&copy; AJ SOFTDRIVE COMPUTER SALES & SERVICES</p>
+        <p style="font-size: 9px; line-height: 1.4;">HIGH-PERFORMANCE COMPUTER SHOP<br>Lapu-Lapu Street, City of Tacurong, Sultan Kudarat</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.animationPlayState = "running";
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
